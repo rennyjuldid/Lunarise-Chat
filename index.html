@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Lunarise chat</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>LUNARISE CHAT GENERATOR</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@800&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+
+        :root { --blue-bright: #007bff; --bg: #ffffff; --panel: #fdfdfd; }
+
+        
+
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #1a1a1a; margin: 0; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; }
+
+        
+
+        /* JUDUL & SUB-JUDUL */
+
+        .brand-container { text-align: center; margin-bottom: 50px; }
+
+        h1.brand { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 2.8rem; letter-spacing: -1.5px; margin: 0; color: var(--blue-bright); text-transform: uppercase; }
+
+        .highlight-oval { display: inline-block; padding: 8px 25px; border-radius: 50px; background: rgba(0, 123, 255, 0.1); color: var(--blue-bright); font-weight: 600; font-size: 1rem; margin-top: 10px; border: 1px solid rgba(0, 123, 255, 0.2); }
+
+        .container { width: 100%; max-width: 750px; display: flex; flex-direction: column; gap: 30px; }
+
+        .setup-panel { background: var(--panel); padding: 30px; border-radius: 28px; border: 1px solid #eee; box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
+
+        
+
+        .control-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+
+        label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #999; letter-spacing: 1px; }
+
+        input[type="text"], textarea, select { background: white; border: 1px solid #ddd; padding: 14px; border-radius: 14px; outline: none; font-size: 14px; font-family: inherit; }
+
+        textarea { height: 120px; resize: none; line-height: 1.6; }
+
+        .btn-group { display: flex; gap: 15px; }
+
+        .btn-primary { flex: 1; background: var(--blue-bright); color: white; border: none; padding: 16px; border-radius: 16px; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+
+        /* KANVAS FULL SUDUT */
+
+        #captureArea { 
+
+            width: 360px; min-height: 520px; background: #fff; 
+
+            display: flex; flex-direction: column; margin: 0 auto;
+
+            border: 1px solid #eee; 
+
+        }
+
+        /* HEADER & STATUS BAR */
+
+        .status-bar { height: 25px; padding: 5px 15px 0; display: flex; justify-content: space-between; font-size: 11px; font-weight: 600; }
+
+        .chat-header { height: 55px; padding: 0 15px; display: flex; align-items: center; justify-content: space-between; }
+
+        
+
+        .st-wa { background: #075e54; color: white; } .hd-wa { background: #075e54; color: white; }
+
+        .st-ig { background: #000; color: white; } .hd-ig { background: #000; color: white; }
+
+        .st-im { background: #f4f4f4; color: #000; } .hd-im { background: #f4f4f4; color: #000; border-bottom: 1px solid #ddd;}
+
+        .hide-element { display: none !important; }
+
+        .avatar { width: 34px; height: 34px; background: #ccc; border-radius: 50%; margin-right: 10px; }
+
+        .header-info b { font-size: 14px; display: block; }
+
+        .header-info span { font-size: 10px; opacity: 0.7; }
+
+        .icon-svg { width: 18px; height: 18px; fill: currentColor; opacity: 0.8; }
+
+        #chatView { flex: 1; padding: 15px; display: flex; flex-direction: column; }
+
+        .theme-whatsapp { background: #e5ddd5; }
+
+        .theme-instagram { background: #000; }
+
+        .theme-imessage { background: #fff; }
+
+        .theme-polos { background: #ffffff; padding-top: 30px; }
+
+        /* BUBBLES */
+
+        .msg { max-width: 80%; margin-bottom: 12px; padding: 10px 14px; border-radius: 18px; font-size: 13.5px; line-height: 1.45; }
+
+        
+
+        .theme-whatsapp .msg.A { align-self: flex-start; background: white; border-bottom-left-radius: 2px; }
+
+        .theme-whatsapp .msg.B { align-self: flex-end; background: #dcf8c6; border-bottom-right-radius: 2px; }
+
+        
+
+        .theme-instagram .msg.A { align-self: flex-start; background: #262626; color: white; }
+
+        .theme-instagram .msg.B { align-self: flex-end; background: linear-gradient(135deg, #3797f0 0%, #7e37f0 100%); color: white; }
+
+        
+
+        .theme-imessage .msg.A { align-self: flex-start; background: #e9e9eb; color: #000; }
+
+        .theme-imessage .msg.B { align-self: flex-end; background: #007aff; color: white; }
+
+        .theme-polos .msg.A { align-self: flex-start; background: #f2f2f2; color: #000; border-radius: 10px; }
+
+        .theme-polos .msg.B { align-self: flex-end; background: var(--blue-bright); color: #fff; border-radius: 10px; }
+
+        /* PERBAIKAN: BALON NARATOR LEBIH TEGAS (SOLID) */
+
+        .msg.N { 
+
+            align-self: center; 
+
+            background: rgba(0,0,0,0.15); /* Opacity ditingkatkan agar lebih solid */
+
+            color: #333; /* Teks lebih gelap agar terbaca */
+
+            font-size: 11px; 
+
+            text-align: center; 
+
+            font-style: italic; 
+
+            padding: 10px 20px; 
+
+            width: 85%; 
+
+            border-radius: 12px; 
+
+            margin: 15px 0; 
+
+            font-weight: 500;
+
+        }
+
+        .theme-instagram .msg.N { 
+
+            background: rgba(255,255,255,0.2); 
+
+            color: #eee; 
+
+        }
+
+        .theme-polos .msg.N { 
+
+            background: #f9f9f9; 
+
+            border: 1px solid #eee;
+
+            color: #555;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="brand-container">
+
+        <h1 class="brand">LUNARISE CHAT GENERATOR</h1>
+
+        <div class="highlight-oval">Jadikan Ceritamu Lebih Hidup</div>
+
+    </div>
+
+    <div class="container">
+
+        <div class="setup-panel">
+
+            <div class="control-group">
+
+                <label>Nama Karakter</label>
+
+                <input type="text" id="nameInput" oninput="updateContent()" value="Ayang ❤️">
+
+            </div>
+
+            <div class="control-group">
+
+                <label>Naskah (A:, B:, N:)</label>
+
+                <textarea id="scriptInput" oninput="updateContent()">N: Malam itu di teras rumah...
+
+A: Bintangnya terang ya malam ini.
+
+B: Iya, tapi masih kalah terang sama senyummu. 😊
+
+N: Tiba-tiba angin berhembus kencang.</textarea>
+
+            </div>
+
+            <div class="control-group">
+
+                <label>Pilihan Tampilan</label>
+
+                <select id="themeSelect" onchange="updateTheme()">
+
+                    <option value="theme-whatsapp">WhatsApp Style</option>
+
+                    <option value="theme-imessage">iMessage Style</option>
+
+                    <option value="theme-instagram">Instagram DM</option>
+
+                    <option value="theme-polos">Tampilan Polos (Minimalis)</option>
+
+                </select>
+
+            </div>
+
+            <div class="btn-group">
+
+                <button class="btn-primary" onclick="downloadImage()">Simpan Gambar PNG</button>
+
+            </div>
+
+        </div>
+
+        <div id="captureArea">
+
+            <div id="statusBar" class="status-bar st-wa">
+
+                <span id="currentTime">12:00</span>
+
+                <div style="display:flex;gap:5px">📶 🔋</div>
+
+            </div>
+
+            <div id="chatHeader" class="chat-header hd-wa">
+
+                <div style="display:flex;align-items:center">
+
+                    <div class="avatar"></div>
+
+                    <div class="header-info">
+
+                        <b id="displayCharName">Ayang ❤️</b>
+
+                        <span>Online</span>
+
+                    </div>
+
+                </div>
+
+                <div style="display:flex;gap:12px">
+
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M17 10.5V7a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h12a1 1 0 001-1v-3.5l4 4v-11l-4 4z"/></svg>
+
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 8a2 2 0 100-4 2 2 0 000 4zm0 2a2 2 0 100 4 2 2 0 000-4zm0 6a2 2 0 100 4 2 2 0 000-4z"/></svg>
+
+                </div>
+
+            </div>
+
+            
+
+            <div id="chatView" class="theme-whatsapp"></div>
+
+        </div>
+
+    </div>
+
+<script>
+
+    function updateClock() {
+
+        const now = new Date();
+
+        document.getElementById('currentTime').innerText = now.getHours().toString().padStart(2,'0')+":"+now.getMinutes().toString().padStart(2,'0');
+
+    }
+
+    setInterval(updateClock, 1000); updateClock();
+
+    function updateTheme() {
+
+        const t = document.getElementById('themeSelect').value;
+
+        const cv = document.getElementById('chatView');
+
+        const ch = document.getElementById('chatHeader');
+
+        const sb = document.getElementById('statusBar');
+
+        cv.className = t;
+
+        ch.classList.remove('hide-element');
+
+        sb.classList.remove('hide-element');
+
+        if(t === 'theme-whatsapp') {
+
+            ch.className = 'chat-header hd-wa'; sb.className = 'status-bar st-wa';
+
+        } else if(t === 'theme-instagram') {
+
+            ch.className = 'chat-header hd-ig'; sb.className = 'status-bar st-ig';
+
+        } else if(t === 'theme-imessage') {
+
+            ch.className = 'chat-header hd-im'; sb.className = 'status-bar st-im';
+
+        } else if(t === 'theme-polos') {
+
+            ch.classList.add('hide-element');
+
+            sb.classList.add('hide-element');
+
+        }
+
+        updateContent();
+
+    }
+
+    function updateContent() {
+
+        const name = document.getElementById('nameInput').value;
+
+        const script = document.getElementById('scriptInput').value;
+
+        const cv = document.getElementById('chatView');
+
+        document.getElementById('displayCharName').innerText = name || 'User';
+
+        cv.innerHTML = '';
+
+        script.split('\n').forEach(line => {
+
+            if(!line.trim()) return;
+
+            const prefix = line.substring(0,2).toUpperCase();
+
+            const content = line.substring(2).trim();
+
+            const b = document.createElement('div');
+
+            
+
+            if(prefix === 'A:') b.className = 'msg A';
+
+            else if(prefix === 'B:') b.className = 'msg B';
+
+            else if(prefix === 'N:') b.className = 'msg N';
+
+            else { b.className = 'msg N'; b.innerText = line; return cv.appendChild(b); }
+
+            
+
+            b.innerText = content;
+
+            cv.appendChild(b);
+
+        });
+
+    }
+
+    function downloadImage() {
+
+        const area = document.querySelector("#captureArea");
+
+        html2canvas(area, { scale: 2, backgroundColor: '#ffffff' }).then(canvas => {
+
+            const link = document.createElement('a');
+
+            link.download = 'lunarise-export.png';
+
+            link.href = canvas.toDataURL();
+
+            link.click();
+
+        });
+
+    }
+
+    updateTheme();
+
+</script>
+
+</body>
+
+</html>
+    
+  </body>
+  
+</html>
